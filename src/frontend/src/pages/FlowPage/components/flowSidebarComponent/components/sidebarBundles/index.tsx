@@ -5,9 +5,9 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import { memo, useMemo } from "react";
-import { SidebarGroupProps } from "../../types";
 import { BundleItem } from "../bundleItems";
 
+// bundles sidebar
 export const MemoizedSidebarGroup = memo(
   ({
     BUNDLES,
@@ -15,13 +15,26 @@ export const MemoizedSidebarGroup = memo(
     sortedCategories,
     dataFilter,
     nodeColors,
+    chatInputAdded,
     onDragStart,
     sensitiveSort,
     openCategories,
     setOpenCategories,
     handleKeyDownInput,
-    uniqueInputsComponents,
-  }: SidebarGroupProps) => {
+  }: {
+    BUNDLES: any;
+    search: any;
+    sortedCategories: any;
+    dataFilter: any;
+    nodeColors: any;
+    chatInputAdded: any;
+    onDragStart: any;
+    sensitiveSort: any;
+    openCategories: any;
+    setOpenCategories: any;
+    handleKeyDownInput: any;
+  }) => {
+    // Memoize the sorted bundles calculation
     const sortedBundles = useMemo(() => {
       return BUNDLES.toSorted((a, b) => {
         const referenceArray = search !== "" ? sortedCategories : BUNDLES;
@@ -33,8 +46,8 @@ export const MemoizedSidebarGroup = memo(
     }, [BUNDLES, search, sortedCategories]);
 
     return (
-      <SidebarGroup className="p-3">
-        <SidebarGroupLabel>Bundles</SidebarGroupLabel>
+      <SidebarGroup className="p-4">
+        {/* <SidebarGroupLabel>Bundles</SidebarGroupLabel> */}
         <SidebarGroupContent>
           <SidebarMenu>
             {sortedBundles.map((item) => (
@@ -51,7 +64,7 @@ export const MemoizedSidebarGroup = memo(
                 }}
                 dataFilter={dataFilter}
                 nodeColors={nodeColors}
-                uniqueInputsComponents={uniqueInputsComponents}
+                chatInputAdded={chatInputAdded}
                 onDragStart={onDragStart}
                 sensitiveSort={sensitiveSort}
                 handleKeyDownInput={handleKeyDownInput}

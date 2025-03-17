@@ -421,29 +421,7 @@ export type UserInputType = {
 export type ApiKeyType = {
   children: ReactElement;
   data?: any;
-  onCloseModal?: () => void;
-  modalProps?: {
-    title?: string;
-    description?: string | ReactElement | HTMLElement;
-    inputLabel?: string | ReactElement | HTMLElement | ReactNode;
-    inputPlaceholder?: string;
-    buttonText?: string;
-    generatedKeyMessage?: string | ReactElement | HTMLElement;
-    showIcon?: boolean;
-    size?:
-      | "x-small"
-      | "smaller"
-      | "small"
-      | "medium"
-      | "medium-tall"
-      | "large"
-      | "three-cards"
-      | "large-thin"
-      | "large-h-full"
-      | "templates"
-      | "small-h-full"
-      | "medium-h-full";
-  };
+  onCloseModal: () => void;
 };
 
 export type StoreApiKeyType = {
@@ -596,7 +574,6 @@ export type iconsType = {
 export type modalHeaderType = {
   children: ReactNode;
   description: string | JSX.Element | null;
-  clampDescription?: number;
 };
 
 export type codeAreaModalPropsType = {
@@ -663,7 +640,6 @@ export type textModalPropsType = {
   changeVisibility?: () => void;
   open?: boolean;
   setOpen?: (open: boolean) => void;
-  onCloseModal?: () => void;
 };
 
 export type newFlowModalPropsType = {

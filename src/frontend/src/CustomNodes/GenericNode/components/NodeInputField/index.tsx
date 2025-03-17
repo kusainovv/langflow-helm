@@ -1,14 +1,12 @@
 import useHandleNodeClass from "@/CustomNodes/hooks/use-handle-node-class";
-import { NodeInfoType } from "@/components/core/parameterRenderComponent/types";
 import { usePostTemplateValue } from "@/controllers/API/queries/nodes/use-post-template-value";
 import {
   CustomParameterComponent,
   CustomParameterLabel,
   getCustomParameterTitle,
 } from "@/customization/components/custom-parameter";
-import useAuthStore from "@/stores/authStore";
 import { cn } from "@/utils/utils";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { default as IconComponent } from "../../../../components/common/genericIconComponent";
 import ShadTooltip from "../../../../components/common/shadTooltipComponent";
 import {
@@ -46,13 +44,12 @@ export default function NodeInputField({
   const ref = useRef<HTMLDivElement>(null);
   const nodes = useFlowStore((state) => state.nodes);
   const edges = useFlowStore((state) => state.edges);
-  const isAuth = useAuthStore((state) => state.isAuthenticated);
-  const currentFlow = useFlowStore((state) => state.currentFlow);
   const myData = useTypesStore((state) => state.data);
   const postTemplateValue = usePostTemplateValue({
     node: data.node!,
     nodeId: data.id,
     parameterId: name,
+    tool_mode: data.node!.tool_mode ?? false,
   });
   const setFilterEdge = useFlowStore((state) => state.setFilterEdge);
   const { handleNodeClass } = useHandleNodeClass(data.id);
@@ -67,16 +64,6 @@ export default function NodeInputField({
     nodeId: data.id,
     name,
   });
-
-  const nodeInformationMetadata: NodeInfoType = useMemo(() => {
-    return {
-      flowId: currentFlow?.id ?? "",
-      nodeType: data?.type?.toLowerCase() ?? "",
-      flowName: currentFlow?.name ?? "",
-      isAuth,
-      variableName: name,
-    };
-  }, [data?.node?.id, isAuth, name]);
 
   useFetchDataOnMount(data.node!, handleNodeClass, name, postTemplateValue);
 
@@ -122,9 +109,9 @@ export default function NodeInputField({
     <div
       ref={ref}
       className={cn(
-        "relative flex min-h-10 w-full flex-wrap items-center justify-between px-5 py-2",
-        lastInput ? "rounded-b-[0.69rem] pb-5" : "",
-        isToolMode && "bg-primary/10",
+        "relative mt-1 flex min-h-10 w-full flex-wrap items-center justify-between px-5 py-2",
+        lastInput ? "" : "",
+        isToolMode && "bg-silver/10",
         (name === "code" && type === "code") || (name.includes("code") && proxy)
           ? "hidden"
           : "",
@@ -175,7 +162,7 @@ export default function NodeInputField({
                     <IconComponent
                       name="Info"
                       strokeWidth={ICON_STROKE_WIDTH}
-                      className="relative bottom-px ml-1 h-3 w-3 text-placeholder"
+                      className="relative bottom-px ml-1 h-3 w-3"
                     />
                   </div>
                 </ShadTooltip>
@@ -201,13 +188,8 @@ export default function NodeInputField({
             handleNodeClass={handleNodeClass}
             nodeClass={data.node!}
             disabled={disabled}
-            placeholder={
-              isToolMode
-                ? DEFAULT_TOOLSET_PLACEHOLDER
-                : data.node?.template[name].placeholder
-            }
+            placeholder={isToolMode ? DEFAULT_TOOLSET_PLACEHOLDER : undefined}
             isToolMode={isToolMode}
-            nodeInformationMetadata={nodeInformationMetadata}
           />
         )}
       </div>

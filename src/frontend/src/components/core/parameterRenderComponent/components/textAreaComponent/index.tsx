@@ -1,7 +1,6 @@
 import { GRADIENT_CLASS } from "@/constants/constants";
-import { getCurlWebhookCode } from "@/modals/apiModal/utils/get-curl-code";
 import ComponentTextModal from "@/modals/textAreaModal";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { cn } from "../../../../../utils/utils";
 import IconComponent from "../../../../common/genericIconComponent";
 import { Input } from "../../../../ui/input";
@@ -14,12 +13,10 @@ const inputClasses = {
     `w-full ${isFocused ? "" : "pr-3"} ${password ? "pr-16" : ""}`,
   editNode: "input-edit-node",
   normal: ({ isFocused }: { isFocused: boolean }) =>
-    `primary-input ${isFocused ? "text-primary" : "text-muted-foreground"}`,
+    `primary-input ${isFocused ? "text-black" : "  "}`,
   disabled: "disabled-state",
   password: "password",
 };
-
-const WEBHOOK_VALUE = "CURL_WEBHOOK";
 
 const externalLinkIconClasses = {
   gradient: ({
@@ -64,77 +61,52 @@ export default function TextAreaComponent({
   password,
   placeholder,
   isToolMode = false,
-  nodeInformationMetadata,
 }: InputProps<string, TextAreaComponentType>): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
+
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const isWebhook = useMemo(
-    () => nodeInformationMetadata?.nodeType === "webhook",
-    [nodeInformationMetadata?.nodeType],
-  );
-
-  useEffect(() => {
-    if (isWebhook && value === WEBHOOK_VALUE) {
-      const curlWebhookCode = getCurlWebhookCode({
-        flowId: nodeInformationMetadata?.flowId!,
-        isAuth: nodeInformationMetadata?.isAuth!,
-        flowName: nodeInformationMetadata?.flowName!,
-        format: "singleline",
-      });
-      handleOnNewValue({ value: curlWebhookCode });
-    }
-  }, [isWebhook]);
-
   const getInputClassName = () => {
+    // return cn(
+    //   inputClasses.base({ isFocused, password: password! }),
+    //   editNode ? inputClasses.editNode : inputClasses.normal({ isFocused }),
+    //   disabled && inputClasses.disabled,
+    //   password && !passwordVisible && "text-clip",
+    //   isFocused && "pr-10",
+    // );
     return cn(
-      inputClasses.base({ isFocused, password: password! }),
-      editNode ? inputClasses.editNode : inputClasses.normal({ isFocused }),
-      disabled && inputClasses.disabled,
-      password && !passwordVisible && "text-clip",
-      isFocused && "pr-10",
-    );
+      "primary-input"
+    )
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleOnNewValue({ value: e.target.value });
   };
 
-  const changeWebhookFormat = (format: "multiline" | "singleline") => {
-    if (isWebhook) {
-      const curlWebhookCode = getCurlWebhookCode({
-        flowId: nodeInformationMetadata?.flowId!,
-        isAuth: nodeInformationMetadata?.isAuth!,
-        flowName: nodeInformationMetadata?.flowName!,
-        format,
-      });
-      handleOnNewValue({ value: curlWebhookCode });
-    }
-  };
-
   const renderIcon = () => (
     <div>
-      {!disabled && !isFocused && (
+      {!disabled && (
         <div
           className={cn(
-            externalLinkIconClasses.gradient({
-              disabled,
-              editNode,
-              password: password!,
-            }),
-            editNode
-              ? externalLinkIconClasses.editNodeTop
-              : externalLinkIconClasses.normalTop,
+            // externalLinkIconClasses.gradient({
+            //   disabled,
+            //   editNode,
+            //   password: password!,
+            // }),
+            // editNode
+            //   ? externalLinkIconClasses.editNodeTop
+            //   : externalLinkIconClasses.normalTop,
+            "gradient-fade-input"
           )}
-          style={{
-            pointerEvents: "none",
-            background: isFocused
-              ? undefined
-              : disabled
-                ? "bg-background"
-                : GRADIENT_CLASS,
-          }}
+          // style={{
+          //   pointerEvents: "none",
+          //   background: isFocused
+          //     ? undefined
+          //     : disabled
+          //       ? ""
+          //       : GRADIENT_CLASS,
+          // }}
           aria-hidden="true"
         />
       )}
@@ -143,21 +115,25 @@ export default function TextAreaComponent({
         dataTestId={`button_open_text_area_modal_${id}${editNode ? "_advanced" : ""}`}
         name={getIconName(disabled, "", "", false, isToolMode) || "Scan"}
         className={cn(
-          "cursor-pointer bg-background",
-          externalLinkIconClasses.icon,
-          editNode
-            ? externalLinkIconClasses.editNodeTop
-            : externalLinkIconClasses.iconTop,
-          disabled
-            ? "bg-muted text-placeholder-foreground"
-            : "bg-background text-foreground",
+           "icons-parameters-comp absolute right-3 h-4 w-4 shrink-0 top-1/2 -translate-y-1/2 h-full",
+          // "cursor-pointer",
+          // externalLinkIconClasses.icon,
+          // editNode
+          //   ? externalLinkIconClasses.editNodeTop
+          //   : externalLinkIconClasses.iconTop,
+          // disabled
+          //   ? ""
+          //   : "text-foreground",
         )}
+        onClick={() => {
+          setPasswordVisible(!passwordVisible);
+        }}
       />
     </div>
   );
 
   return (
-    <div className={cn("w-full", disabled && "pointer-events-none")}>
+    <div className={"relative w-full"}>
       <Input
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
@@ -166,47 +142,32 @@ export default function TextAreaComponent({
         value={disabled ? "" : value}
         onChange={handleInputChange}
         disabled={disabled}
-        className={getInputClassName()}
+        // className={getInputClassName()}
         placeholder={getPlaceholder(disabled, placeholder)}
         aria-label={disabled ? value : undefined}
         ref={inputRef}
         type={password ? (passwordVisible ? "text" : "password") : "text"}
-        readOnly={isWebhook}
       />
 
-      <ComponentTextModal
+<ComponentTextModal
         changeVisibility={updateVisibility}
         value={value}
         setValue={(newValue) => handleOnNewValue({ value: newValue })}
         disabled={disabled}
-        onCloseModal={() => changeWebhookFormat("singleline")}
-      >
-        <div
-          onClick={() => changeWebhookFormat("multiline")}
-          className="relative w-full"
-        >
-          {renderIcon()}
-        </div>
+      >{renderIcon()}
+        {/* <div className="relative w-full">{renderIcon()}</div> */}
       </ComponentTextModal>
-      {password && !isFocused && (
-        <div
-          onClick={() => {
-            setPasswordVisible(!passwordVisible);
-          }}
-        >
-          <IconComponent
-            name={passwordVisible ? "eye" : "eye-off"}
-            className={cn(
-              externalLinkIconClasses.icon,
-              editNode ? "top-[5px]" : "top-[13px]",
-              disabled
-                ? "text-placeholder"
-                : "text-placeholder-foreground hover:text-foreground",
-              "right-10",
-            )}
-          />
-        </div>
-      )}
+      {/* <ComponentTextModal
+        changeVisibility={updateVisibility}
+        value={value}
+        setValue={(newValue) => handleOnNewValue({ value: newValue })}
+        disabled={disabled}
+      > */}
+        
+      {/* </ComponentTextModal> */}
+   
+      
+
     </div>
   );
 }

@@ -19,7 +19,6 @@ export default function ComponentTextModal({
   readonly = false,
   password,
   changeVisibility,
-  onCloseModal,
 }: textModalPropsType): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value);
@@ -28,12 +27,6 @@ export default function ComponentTextModal({
   useEffect(() => {
     if (typeof value === "string") setInputValue(value);
   }, [value, modalOpen]);
-
-  useEffect(() => {
-    if (!modalOpen) {
-      onCloseModal?.();
-    }
-  }, [modalOpen]);
 
   return (
     <BaseModal
@@ -45,7 +38,7 @@ export default function ComponentTextModal({
       <BaseModal.Trigger disable={disabled} asChild>
         {children}
       </BaseModal.Trigger>
-      <BaseModal.Header description={TEXT_DIALOG_SUBTITLE}>
+      <BaseModal.Header description={""}> {/**TEXT_DIALOG_SUBTITLE */}
         <div className="flex w-full items-start gap-3">
           <div className="flex">
             <span className="pr-2" data-testid="modal-title">
@@ -53,7 +46,7 @@ export default function ComponentTextModal({
             </span>
             <IconComponent
               name={"FileText"}
-              className="h-6 w-6 pl-1 text-primary"
+              className="h-6 w-6 pl-1 text-black"
               aria-hidden="true"
             />
           </div>
@@ -66,7 +59,7 @@ export default function ComponentTextModal({
               >
                 <IconComponent
                   name={password ? "Eye" : "EyeOff"}
-                  className="h-6 w-6 cursor-pointer text-primary"
+                  className="h-6 w-6 cursor-pointer text-black"
                 />
               </button>
             </div>
@@ -74,11 +67,11 @@ export default function ComponentTextModal({
         </div>
       </BaseModal.Header>
       <BaseModal.Content overflowHidden>
-        <div className={classNames("flex h-full w-full rounded-lg border")}>
+        <div className={classNames("flex h-full w-full border")}>
           <Textarea
             password={password}
             ref={textRef}
-            className="form-input h-full w-full resize-none overflow-auto rounded-lg focus-visible:ring-1"
+            className="form-input h-full w-full resize-none overflow-auto focus-visible:ring-1"
             value={inputValue}
             onChange={(event) => {
               setInputValue(event.target.value);

@@ -1,35 +1,35 @@
 import { CustomLink } from "@/customization/components/custom-link";
 import { Transition } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import IconComponent from "../../components/common/genericIconComponent";
 import { NoticeAlertType } from "../../types/alerts";
 
 export default function NoticeAlert({
   title,
-  list = [],
-  id,
   link,
+  id,
   removeAlert,
 }: NoticeAlertType): JSX.Element {
   const [show, setShow] = useState(true);
+
   useEffect(() => {
-    if (show) {
+    const timeoutId = setTimeout(() => {
+      setShow(false);
+      // Wait for the leave transition before calling removeAlert
       setTimeout(() => {
-        setShow(false);
-        setTimeout(() => {
-          removeAlert(id);
-        }, 500);
-      }, 5000);
-    }
-  }, [id, removeAlert, show]);
+        removeAlert(id);
+      }, 500); // match the duration of the leave transition
+    }, 5000); // auto-dismiss alert after 5 seconds
+
+    return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount or re-render
+  }, [id, removeAlert]);
 
   const handleClick = () => {
     setShow(false);
+    // Wait for the leave transition before calling removeAlert
     setTimeout(() => {
       removeAlert(id);
-    }, 500);
+    }, 500); // Ensure the alert is removed after the animation
   };
 
   return (
@@ -44,7 +44,7 @@ export default function NoticeAlert({
     >
       <div
         onClick={handleClick}
-        className="noflow nowheel nopan nodelete nodrag mt-6 w-96 rounded-md bg-info-background p-4 shadow-xl"
+        className="noflow nowheel nopan nodelete nodrag mt-6 w-96   bg-info-background p-4 shadow-xl"
       >
         <div className="flex">
           <div className="flex-shrink-0 cursor-help">
@@ -62,7 +62,7 @@ export default function NoticeAlert({
               {link && (
                 <CustomLink
                   to={link}
-                  className="whitespace-nowrap font-medium text-info-foreground hover:text-accent-foreground"
+                  className="whitespace-nowrap font-medium text-info-foreground hover:  "
                 >
                   Details
                 </CustomLink>

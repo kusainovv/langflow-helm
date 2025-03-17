@@ -4,7 +4,6 @@ from typing import Any
 from langchain_community.vectorstores import OpenSearchVectorSearch
 
 from langflow.base.vectorstores.model import LCVectorStoreComponent, check_cached_vector_store
-from langflow.base.vectorstores.vector_store_connection_decorator import vector_store_connection
 from langflow.io import (
     BoolInput,
     DropdownInput,
@@ -18,7 +17,6 @@ from langflow.io import (
 from langflow.schema import Data
 
 
-@vector_store_connection
 class OpenSearchVectorStoreComponent(LCVectorStoreComponent):
     """OpenSearch Vector Store with advanced, customizable search capabilities."""
 

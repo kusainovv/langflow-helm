@@ -18,8 +18,9 @@ import PromptAreaComponent from "./components/promptComponent";
 import { RefreshParameterComponent } from "./components/refreshParameterComponent";
 import { StrRenderComponent } from "./components/strRenderComponent";
 import ToggleShadComponent from "./components/toggleShadComponent";
-import { InputProps, NodeInfoType } from "./types";
+import { InputProps } from "./types";
 
+// render components and buttons
 export function ParameterRenderComponent({
   handleOnNewValue,
   name,
@@ -32,11 +33,8 @@ export function ParameterRenderComponent({
   disabled,
   placeholder,
   isToolMode,
-  nodeInformationMetadata,
 }: {
-  handleOnNewValue:
-    | handleOnNewValueType
-    | ((value: string, key: string) => void);
+  handleOnNewValue: handleOnNewValueType;
   name: string;
   nodeId: string;
   templateData: Partial<InputFieldType>;
@@ -47,7 +45,6 @@ export function ParameterRenderComponent({
   disabled: boolean;
   placeholder?: string;
   isToolMode?: boolean;
-  nodeInformationMetadata?: NodeInfoType;
 }) {
   const id = (
     templateData.type +
@@ -61,18 +58,14 @@ export function ParameterRenderComponent({
       id,
       value: templateValue,
       editNode,
-      handleOnNewValue: handleOnNewValue as handleOnNewValueType,
+      handleOnNewValue,
       disabled,
       nodeClass,
       handleNodeClass,
-      helperText: templateData?.helper_text,
       readonly: templateData.readonly,
       placeholder,
       isToolMode,
-      nodeId,
-      nodeInformationMetadata,
     };
-
     if (TEXT_FIELD_TYPES.includes(templateData.type ?? "")) {
       if (templateData.list) {
         if (!templateData.options) {
@@ -81,7 +74,6 @@ export function ParameterRenderComponent({
               {...baseInputProps}
               componentName={name}
               id={`inputlist_${id}`}
-              listAddLabel={templateData?.list_add_label}
             />
           );
         }
@@ -100,6 +92,7 @@ export function ParameterRenderComponent({
           );
         }
       }
+      
       return (
         <StrRenderComponent
           {...baseInputProps}
@@ -189,7 +182,6 @@ export function ParameterRenderComponent({
             table_options={templateData?.table_options}
             trigger_icon={templateData?.trigger_icon}
             trigger_text={templateData?.trigger_text}
-            table_icon={templateData?.table_icon}
           />
         );
       case "slider":

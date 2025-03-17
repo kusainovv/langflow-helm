@@ -4,6 +4,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
+import { Edge, Node, Viewport } from "@xyflow/react";
 import { ChatInputType, ChatOutputType } from "../chat";
 import { FlowType } from "../flow";
 //kind and class are just representative names to represent the actual structure of the object received by the API
@@ -52,7 +53,6 @@ export type APIClassType = {
   flow?: FlowType;
   field_order?: string[];
   tool_mode?: boolean;
-  type?: string;
   [key: string]:
     | Array<string>
     | string
@@ -103,7 +103,6 @@ export type OutputFieldType = {
   display_name: string;
   hidden?: boolean;
   proxy?: OutputFieldProxyType;
-  allows_loop?: boolean;
 };
 export type errorsTypeAPI = {
   function: { errors: Array<string> };
@@ -302,10 +301,7 @@ export type FieldParserType =
   | "pascal_case"
   | "kebab_case"
   | "lowercase"
-  | "uppercase"
-  | "no_blank"
-  | "valid_csv"
-  | "commands";
+  | "uppercase";
 
 export type TableOptionsTypeAPI = {
   block_add?: boolean;
@@ -320,5 +316,4 @@ export type TableOptionsTypeAPI = {
     FieldValidatorType | { [key: string]: FieldValidatorType }
   >;
   field_parsers?: Array<FieldParserType | { [key: string]: FieldParserType }>;
-  description?: string;
 };

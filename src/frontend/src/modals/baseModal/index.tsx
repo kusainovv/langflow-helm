@@ -44,7 +44,7 @@ const Content: React.FC<ContentProps> = ({
   return (
     <div
       className={cn(
-        `flex w-full flex-grow flex-col transition-all duration-300`,
+        `flex w-full h-full flex-grow flex-col transition-all duration-300`, // flex w-full flex-grow flex-col transition-all duration-300
         overflowHidden ? "overflow-hidden" : "overflow-visible",
         className,
       )}
@@ -74,20 +74,13 @@ const Trigger: React.FC<TriggerProps> = ({
 const Header: React.FC<{
   children: ReactNode;
   description: string | JSX.Element | null;
-  clampDescription?: number;
-}> = ({
-  children,
-  description,
-  clampDescription,
-}: modalHeaderType): JSX.Element => {
+}> = ({ children, description }: modalHeaderType): JSX.Element => {
   return (
     <DialogHeader>
       <DialogTitle className="line-clamp-1 flex items-center pb-0.5 text-base">
         {children}
       </DialogTitle>
-      <DialogDescription
-        className={`line-clamp-${clampDescription ?? 2} text-sm`}
-      >
+      <DialogDescription className="line-clamp-2 text-sm">
         {description}
       </DialogDescription>
     </DialogHeader>
@@ -112,7 +105,7 @@ const Footer: React.FC<{
       className={
         centered
           ? "flex flex-shrink-0 justify-center"
-          : "flex flex-shrink-0 flex-row-reverse"
+          : "flex flex-shrink-0 flex-row-reverse p-2"
       }
     >
       {submit ? (

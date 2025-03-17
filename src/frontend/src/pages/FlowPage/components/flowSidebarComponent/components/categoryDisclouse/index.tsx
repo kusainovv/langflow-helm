@@ -9,13 +9,14 @@ import { APIClassType } from "@/types/api";
 import { memo, useCallback } from "react";
 import SidebarItemsList from "../sidebarItemsList";
 
+// components item sidebar
 export const CategoryDisclosure = memo(function CategoryDisclosure({
   item,
   openCategories,
   setOpenCategories,
   dataFilter,
   nodeColors,
-  uniqueInputsComponents,
+  chatInputAdded,
   onDragStart,
   sensitiveSort,
 }: {
@@ -24,10 +25,7 @@ export const CategoryDisclosure = memo(function CategoryDisclosure({
   setOpenCategories;
   dataFilter: any;
   nodeColors: any;
-  uniqueInputsComponents: {
-    chatInput: boolean;
-    webhookInput: boolean;
-  };
+  chatInputAdded: boolean;
   onDragStart: (
     event: React.DragEvent<any>,
     data: { type: string; node?: APIClassType },
@@ -70,15 +68,15 @@ export const CategoryDisclosure = memo(function CategoryDisclosure({
             >
               <ForwardedIconComponent
                 name={item.icon}
-                className="h-4 w-4 group-aria-expanded/collapsible:text-accent-pink-foreground"
+                className="h-4 w-4"
               />
-              <span className="flex-1 group-aria-expanded/collapsible:font-semibold">
+              <span className="flex-1 group-aria-expanded/collapsible: ">
                 {item.display_name}
               </span>
-              <ForwardedIconComponent
+              {/* <ForwardedIconComponent
                 name="ChevronRight"
-                className="-mr-1 h-4 w-4 text-muted-foreground transition-all group-aria-expanded/collapsible:rotate-90"
-              />
+                className="-mr-1 h-4 w-4    transition-all group-aria-expanded/collapsible:rotate-90"
+              /> */}
             </div>
           </SidebarMenuButton>
         </DisclosureTrigger>
@@ -87,7 +85,7 @@ export const CategoryDisclosure = memo(function CategoryDisclosure({
             item={item}
             dataFilter={dataFilter}
             nodeColors={nodeColors}
-            uniqueInputsComponents={uniqueInputsComponents}
+            chatInputAdded={chatInputAdded}
             onDragStart={onDragStart}
             sensitiveSort={sensitiveSort}
           />

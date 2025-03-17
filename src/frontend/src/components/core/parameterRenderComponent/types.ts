@@ -11,15 +11,10 @@ export type BaseInputProps<valueType = any> = {
   handleOnNewValue: handleOnNewValueType;
   disabled: boolean;
   nodeClass?: APIClassType;
-  helperText?: string;
   handleNodeClass?: (value: any, code?: string, type?: string) => void;
   readonly?: boolean;
   placeholder?: string;
   isToolMode?: boolean;
-  tooltip?: string;
-  metadata?: any;
-  nodeId?: string;
-  nodeInformationMetadata?: NodeInfoType;
 };
 
 // Generic type for composing input props
@@ -36,7 +31,6 @@ export type TableComponentType = {
   table_options?: TableOptionsTypeAPI;
   trigger_text?: string;
   trigger_icon?: string;
-  table_icon?: string;
 };
 
 export type FloatComponentType = {
@@ -78,15 +72,12 @@ export type StrRenderComponentType = {
 export type InputListComponentType = {
   componentName?: string;
   id?: string;
-  listAddLabel?: string;
 };
 
 export type DropDownComponentType = {
   combobox?: boolean;
   options: string[];
   name: string;
-  dialogInputs?: any;
-  optionsMetaData?: any[];
 };
 
 export type TextAreaComponentType = {
@@ -102,12 +93,4 @@ export type InputGlobalComponentType = {
 export type MultiselectComponentType = {
   options: string[];
   combobox?: boolean;
-};
-
-export type NodeInfoType = {
-  flowId: string;
-  nodeType: string;
-  flowName: string;
-  isAuth: boolean;
-  variableName: string;
 };

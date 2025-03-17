@@ -1,19 +1,18 @@
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { removeCountFromString } from "@/utils/utils";
-import { disableItem } from "../../helpers/disable-item";
-import { getDisabledTooltip } from "../../helpers/get-disabled-tooltip";
 import SidebarDraggableComponent from "../sidebarDraggableComponent";
 
+// sidebar dropdown element
 const SidebarItemsList = ({
   item,
   dataFilter,
   nodeColors,
-  uniqueInputsComponents,
+  chatInputAdded,
   onDragStart,
   sensitiveSort,
 }) => {
   return (
-    <div className="flex flex-col gap-1 py-2">
+    <div className="flex flex-col mb-[2px] bg-silver">
       {Object.keys(dataFilter[item.name])
         .sort((a, b) => {
           const itemA = dataFilter[item.name][a];
@@ -48,11 +47,8 @@ const SidebarItemsList = ({
                 official={currentItem.official === false ? false : true}
                 beta={currentItem.beta ?? false}
                 legacy={currentItem.legacy ?? false}
-                disabled={disableItem(SBItemName, uniqueInputsComponents)}
-                disabledTooltip={getDisabledTooltip(
-                  SBItemName,
-                  uniqueInputsComponents,
-                )}
+                disabled={SBItemName === "ChatInput" && chatInputAdded}
+                disabledTooltip="Chat input already added"
               />
             </ShadTooltip>
           );

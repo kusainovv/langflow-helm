@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/disclosure";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { memo } from "react";
-import { BundleItemProps } from "../../types";
 import SidebarItemsList from "../sidebarItemsList";
 
 export const BundleItem = memo(
@@ -16,11 +15,21 @@ export const BundleItem = memo(
     onOpenChange,
     dataFilter,
     nodeColors,
-    uniqueInputsComponents,
+    chatInputAdded,
     onDragStart,
     sensitiveSort,
     handleKeyDownInput,
-  }: BundleItemProps) => {
+  }: {
+    item: any;
+    isOpen: boolean;
+    onOpenChange: (isOpen: boolean) => void;
+    dataFilter: any;
+    nodeColors: any;
+    chatInputAdded: any;
+    onDragStart: any;
+    sensitiveSort: any;
+    handleKeyDownInput: any;
+  }) => {
     if (
       !dataFilter[item.name] ||
       Object.keys(dataFilter[item.name]).length === 0
@@ -42,15 +51,15 @@ export const BundleItem = memo(
                 >
                   <ForwardedIconComponent
                     name={item.icon}
-                    className="h-4 w-4 text-muted-foreground group-aria-expanded/collapsible:text-primary"
+                    className="h-4 w-4    group-aria-expanded/collapsible:text-black"
                   />
-                  <span className="flex-1 group-aria-expanded/collapsible:font-semibold">
+                  <span className="flex-1 group-aria-expanded/collapsible: ">
                     {item.display_name}
                   </span>
-                  <ForwardedIconComponent
+                  {/* <ForwardedIconComponent
                     name="ChevronRight"
-                    className="-mr-1 h-4 w-4 text-muted-foreground transition-all group-aria-expanded/collapsible:rotate-90"
-                  />
+                    className="-mr-1 h-4 w-4    transition-all group-aria-expanded/collapsible:rotate-90"
+                  /> */}
                 </div>
               </SidebarMenuButton>
             </DisclosureTrigger>
@@ -59,7 +68,7 @@ export const BundleItem = memo(
                 item={item}
                 dataFilter={dataFilter}
                 nodeColors={nodeColors}
-                uniqueInputsComponents={uniqueInputsComponents}
+                chatInputAdded={chatInputAdded}
                 onDragStart={onDragStart}
                 sensitiveSort={sensitiveSort}
               />

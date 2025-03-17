@@ -1,4 +1,4 @@
-import { IS_AUTO_LOGIN, LANGFLOW_REFRESH_TOKEN } from "@/constants/constants";
+import { LANGFLOW_REFRESH_TOKEN } from "@/constants/constants";
 import { useMutationFunctionType } from "@/types/api";
 import { Cookies } from "react-cookie";
 import { api } from "../../api";
@@ -25,10 +25,7 @@ export const useRefreshAccessToken: useMutationFunctionType<
     return res.data;
   }
 
-  const mutation = mutate(["useRefreshAccessToken"], refreshAccess, {
-    ...options,
-    retry: IS_AUTO_LOGIN ? 0 : 3,
-  });
+  const mutation = mutate(["useRefreshAccessToken"], refreshAccess, options);
 
   return mutation;
 };

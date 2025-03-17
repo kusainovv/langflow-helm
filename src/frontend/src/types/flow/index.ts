@@ -1,6 +1,6 @@
 import { Edge, Node, ReactFlowJsonObject } from "@xyflow/react";
 import { BuildStatus } from "../../constants/enums";
-import { APIClassType, OutputFieldType } from "../api/index";
+import { APIClassType } from "../api/index";
 
 export type PaginatedFlowsType = {
   items: FlowType[];
@@ -48,7 +48,6 @@ export type noteClassType = Pick<
     backgroundColor?: string;
     [key: string]: any;
   };
-  outputs?: OutputFieldType[];
 };
 
 export type NoteDataType = {
@@ -102,10 +101,8 @@ export type sourceHandleType = {
 //left side
 export type targetHandleType = {
   inputTypes?: string[];
-  output_types?: string[];
   type: string;
   fieldName: string;
-  name?: string;
   id: string;
   proxy?: { field: string; id: string };
 };
